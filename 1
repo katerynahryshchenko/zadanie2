@@ -19,6 +19,13 @@ void destruct_mnoz(MNOZINA* mnoz){
     free(mnoz);
 }
 
+void vypis(MNOZINA* mnoz) {
+	int i;
+	for(i=0; i<mnoz->size; i++){
+		printf("%d ", mnoz->data[i]);
+	}
+}
+
 int main() {
 
 return 0;
