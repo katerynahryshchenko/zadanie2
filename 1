@@ -19,6 +19,18 @@ void destruct_mnoz(MNOZINA* mnoz){
     free(mnoz);
 }
 
+void test(MNOZINA* mnoz, int a) {
+	int i;
+	for(i=0; i<mnoz->size; i++){
+		if (mnoz->data[i] == a){
+		printf("Mnozina obsahuje prvok %d", a);
+		return;
+		}
+	}	
+printf("Mnozina neoobsahuje prvok %d", a);
+return;		
+}
+
 void vypis(MNOZINA* mnoz) {
 	int i;
 	for(i=0; i<mnoz->size; i++){
