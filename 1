@@ -1,0 +1,25 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
+
+typedef struct{
+int* data;
+int size;
+}MNOZINA;
+
+MNOZINA* kostrukt_mnoz(){
+    MNOZINA* mnoz = (MNOZINA*)malloc(sizeof(MNOZINA));
+    mnoz->data = NULL;
+    mnoz->size = 0;
+    return mnoz;
+}
+
+void destruct_mnoz(MNOZINA* mnoz){
+    free(mnoz->data);
+    free(mnoz);
+}
+
+int main() {
+
+return 0;
+}
