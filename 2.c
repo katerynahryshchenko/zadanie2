@@ -20,17 +20,15 @@ void destruct_mnoz(MNOZINA* mnoz){
 }
 
 void pridat(MNOZINA* mnoz, int a) {
-	MNOZINA *mnoz1;
 	int i;
 	
-	mnoz1 = kostrukt_mnoz();
 	mnoz->size = mnoz->size + 1;
-	for(i=0; i<mnoz->size; i++){
-		mnoz->data[i] = mnoz->data[i];
+	int* data = (int*)malloc(mnoz->size * sizeof(int));
+	for (i = 0; i < mnoz->size - 1 ; i++) {
+		data[i] = mnoz->data[i];
 	}
-	mnoz1->data[mnoz->size - 1] = a;
-	*mnoz = *mnoz1;
-	return;
+	data[mnoz->size - 1] = a;
+	mnoz->data = data;
 }
 
 void test(MNOZINA* mnoz, int a) {
@@ -49,7 +47,7 @@ void test(MNOZINA* mnoz, int a) {
 void vypis(MNOZINA* mnoz) {
 	int i;
 	
-	for(i=0; i < mnoz->size; i++){
+	for(i = 0; i < mnoz->size; i++){
 		printf("%d ", mnoz->data[i]);
 	}
 }
