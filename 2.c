@@ -24,9 +24,11 @@ void pridat(MNOZINA* mnoz, int a) {
 	
 	mnoz->size = mnoz->size + 1;
 	int* data = (int*)malloc(mnoz->size * sizeof(int));
+	
 	for (i = 0; i < mnoz->size - 1; i++) {
 		data[i] = mnoz->data[i];
 	}
+	
 	free(mnoz->data);
 	data[mnoz->size - 1] = a;
 	mnoz->data = data;
@@ -39,14 +41,18 @@ void odstranit(MNOZINA* mnoz, int a) {
 		if (mnoz->data[i] == a)
 			j = i;			
 	}
+	
 	mnoz->size = mnoz->size - 1;
 	int* data = (int*)malloc(mnoz->size * sizeof(int));
+	
 	for (i = 0; i < j; i++) {
 		data[i] = mnoz->data[i];
 	}
+	
 	for (i = j; i < mnoz->size; i++) {
 		data[i] = mnoz->data[i+1];
 	}
+	
 	free(mnoz->data);
 	mnoz->data = data;
 }
@@ -98,24 +104,62 @@ void sort(MNOZINA* mnoz) {
     }
 }
 
+MNOZINA* prienik(MNOZINA* mnoz1, MNOZINA* mnoz2) {
+	MNOZINA* p = konstrukt_mnoz();
+	int i = 0, j = 0;
+	
+	sort(mnoz1);
+	sort(mnoz2);
+	
+	while (i < mnoz1->size && j < mnoz2->size) {
+		
+		if (mnoz1->data[i] < mnoz2->data[j])
+			i++;
+			
+		if (mnoz1->data[i] > mnoz2->data[j])
+			j++;
+			
+		if (mnoz1->data[i] == mnoz2->data[j]) { 
+			pridat(p, mnoz1->data[i]);
+			i++;
+			j++;			
+		}
+		
+	}
+	return p;
+}
+
 void vypis(MNOZINA* mnoz) {
 	int i;
 	
 	for(i = 0; i < mnoz->size; i++){
 		printf("%d ", mnoz->data[i]);
 	}
+	
 	puts("\n");
 }
 
 int main() {
-	MNOZINA* mnoz = konstrukt_mnoz();
-	pridat(mnoz, 1);
-	pridat(mnoz, 10);
-	pridat(mnoz, 3);
-	vypis(mnoz);
-	odstranit(mnoz, 10);
-	pridat(mnoz, 7);
-	vypis(mnoz);
-	destruct_mnoz(mnoz);
+	MNOZINA* mnoz1 = konstrukt_mnoz();
+	MNOZINA* mnoz2 = konstrukt_mnoz();
+	
+	pridat(mnoz1, 1);
+	pridat(mnoz1, 10);
+	pridat(mnoz1, 3);
+	
+	pridat(mnoz2, 14);
+	pridat(mnoz2, 3);
+	pridat(mnoz2, 5);
+	
+	vypis(mnoz1);
+	vypis(mnoz2);
+	
+	MNOZINA* pr = prienik(mnoz1, mnoz2);
+	vypis(pr);
+	
+	destruct_mnoz(pr);
+	destruct_mnoz(mnoz1);
+	destruct_mnoz(mnoz2);
+	
 	return 0;
 }
