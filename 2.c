@@ -64,6 +64,40 @@ void test(MNOZINA* mnoz, int a) {
 	return;		
 }
 
+void heapify(int arr[], int n, int i) {
+    int max = i, a;  
+    int left = 2 * i + 1; 
+    int right = 2 * i + 2; 
+
+    if (left < n && arr[left] > arr[max])
+        max = left;
+
+    if (right < n && arr[right] > arr[max])
+        max = right;
+
+    if (max != i) {
+        a = arr[i];
+        arr[i] = arr[max];
+        arr[max] = a;
+        heapify(arr, n, max);
+    }
+}
+
+void sort(MNOZINA* mnoz) {
+	int a;
+	
+    for (int i = mnoz->size / 2 - 1; i >= 0; i--)
+        heapify(mnoz->data, mnoz->size, i);
+
+    for (int i = mnoz->size - 1; i > 0; i--) {
+        a = mnoz->data[0];
+        mnoz->data[0] = mnoz->data[i];
+        mnoz->data[i] = a;
+
+        heapify(mnoz->data, i, 0);
+    }
+}
+
 void vypis(MNOZINA* mnoz) {
 	int i;
 	
