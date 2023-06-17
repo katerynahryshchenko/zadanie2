@@ -62,11 +62,11 @@ void test(MNOZINA* mnoz, int a) {
 	
 	for(i = 0; i < mnoz->size; i++){
 		if (mnoz->data[i] == a){
-			printf("Mnozina obsahuje prvok %d", a);
+			printf("Mnozina obsahuje prvok %d\n", a);
 			return;
 		}
 	}	
-	printf("Mnozina neoobsahuje prvok %d", a);
+	printf("Mnozina neoobsahuje prvok %d\n", a);
 	return;		
 }
 
@@ -129,6 +129,45 @@ MNOZINA* prienik(MNOZINA* mnoz1, MNOZINA* mnoz2) {
 	return p;
 }
 
+MNOZINA* zjednotenie(MNOZINA* mnoz1, MNOZINA* mnoz2) {
+	MNOZINA* z = konstrukt_mnoz();
+	int i = 0, j = 0;
+	
+	sort(mnoz1);
+	sort(mnoz2);
+	
+	while (i < mnoz1->size && j < mnoz2->size) {
+		
+		if (mnoz1->data[i] < mnoz2->data[j]){
+			pridat(z, mnoz1->data[i]);
+			i++;
+		}
+			
+		if (mnoz1->data[i] > mnoz2->data[j]){
+			pridat(z, mnoz2->data[j]);
+			j++;
+		}
+			
+		if (mnoz1->data[i] == mnoz2->data[j]) { 
+			pridat(z, mnoz1->data[i]);
+			i++;
+			j++;			
+		}
+	}
+		
+	while (i < mnoz1->size) {
+        pridat(z, mnoz1->data[i]);
+        i++;
+    }
+
+    while (j < mnoz2->size) {
+        pridat(z, mnoz2->data[j]);
+        j++;
+    }
+
+	return z;
+}
+
 void vypis(MNOZINA* mnoz) {
 	int i;
 	
@@ -151,13 +190,21 @@ int main() {
 	pridat(mnoz2, 3);
 	pridat(mnoz2, 5);
 	
+	printf("Mnozina 1: ");
 	vypis(mnoz1);
+	printf("Mnozina 2: ");
 	vypis(mnoz2);
 	
 	MNOZINA* pr = prienik(mnoz1, mnoz2);
+	printf("Prienik mnozin 1 a 2 je: ");
 	vypis(pr);
 	
+	MNOZINA* zj = zjednotenie(mnoz1, mnoz2);
+	printf("Zjednotenie mnozin 1 a 2 je: ");
+	vypis(zj);
+	
 	destruct_mnoz(pr);
+	destruct_mnoz(zj);
 	destruct_mnoz(mnoz1);
 	destruct_mnoz(mnoz2);
 	
