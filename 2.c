@@ -7,7 +7,7 @@ typedef struct{
 	int size;
 }MNOZINA;
 
-MNOZINA* kostrukt_mnoz(){
+MNOZINA* konstrukt_mnoz(){
     MNOZINA* mnoz = (MNOZINA*)malloc(sizeof(MNOZINA));
     mnoz->data = NULL;
     mnoz->size = 0;
@@ -24,9 +24,10 @@ void pridat(MNOZINA* mnoz, int a) {
 	
 	mnoz->size = mnoz->size + 1;
 	int* data = (int*)malloc(mnoz->size * sizeof(int));
-	for (i = 0; i < mnoz->size - 1 ; i++) {
+	for (i = 0; i < mnoz->size - 1; i++) {
 		data[i] = mnoz->data[i];
 	}
+	free(mnoz->data);
 	data[mnoz->size - 1] = a;
 	mnoz->data = data;
 }
@@ -46,6 +47,7 @@ void odstranit(MNOZINA* mnoz, int a) {
 	for (i = j; i < mnoz->size; i++) {
 		data[i] = mnoz->data[i+1];
 	}
+	free(mnoz->data);
 	mnoz->data = data;
 }
 
@@ -54,8 +56,8 @@ void test(MNOZINA* mnoz, int a) {
 	
 	for(i = 0; i < mnoz->size; i++){
 		if (mnoz->data[i] == a){
-		printf("Mnozina obsahuje prvok %d", a);
-		return;
+			printf("Mnozina obsahuje prvok %d", a);
+			return;
 		}
 	}	
 	printf("Mnozina neoobsahuje prvok %d", a);
@@ -68,9 +70,18 @@ void vypis(MNOZINA* mnoz) {
 	for(i = 0; i < mnoz->size; i++){
 		printf("%d ", mnoz->data[i]);
 	}
+	puts("\n");
 }
 
 int main() {
-
+	MNOZINA* mnoz = konstrukt_mnoz();
+	pridat(mnoz, 1);
+	pridat(mnoz, 10);
+	pridat(mnoz, 3);
+	vypis(mnoz);
+	odstranit(mnoz, 10);
+	pridat(mnoz, 7);
+	vypis(mnoz);
+	destruct_mnoz(mnoz);
 	return 0;
 }
