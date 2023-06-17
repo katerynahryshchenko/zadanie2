@@ -31,6 +31,24 @@ void pridat(MNOZINA* mnoz, int a) {
 	mnoz->data = data;
 }
 
+void odstranit(MNOZINA* mnoz, int a) {
+	int i, j;
+	
+	for (i = 0; i < mnoz->size; i++){
+		if (mnoz->data[i] == a)
+			j = i;			
+	}
+	mnoz->size = mnoz->size - 1;
+	int* data = (int*)malloc(mnoz->size * sizeof(int));
+	for (i = 0; i < j; i++) {
+		data[i] = mnoz->data[i];
+	}
+	for (i = j; i < mnoz->size; i++) {
+		data[i] = mnoz->data[i+1];
+	}
+	mnoz->data = data;
+}
+
 void test(MNOZINA* mnoz, int a) {
 	int i;
 	
