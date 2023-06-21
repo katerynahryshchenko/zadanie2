@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
+#define NO_MATCH 0
+#define MATCH 1
 
 typedef struct{
 	int* data;
@@ -57,20 +59,17 @@ void odstranit(MNOZINA* mnoz, int a) {
 	mnoz->data = data;
 }
 
-void test(MNOZINA* mnoz, int a) {
+int test(MNOZINA* mnoz, int a) {
 	int i;
 	
 	for(i = 0; i < mnoz->size; i++){
-		if (mnoz->data[i] == a){
-			printf("Mnozina obsahuje prvok %d\n", a);
-			return;
-		}
+		if (mnoz->data[i] == a)
+			return MATCH;
 	}	
-	printf("Mnozina neoobsahuje prvok %d\n", a);
-	return;		
+	return NO_MATCH;		
 }
 
-void heapify(int arr[], int n, int i) {
+void heapify(int* arr, int n, int i) {
     int max = i, a;  
     int left = 2 * i + 1; 
     int right = 2 * i + 2; 
@@ -194,6 +193,12 @@ int main() {
 	vypis(mnoz1);
 	printf("Mnozina 2: ");
 	vypis(mnoz2);
+	
+	//int result = test( mnoz1, 3);
+	//if(result == 1)
+	//	puts("Mnozina obsahuje ten prvok");
+	//else
+	//	puts("Mnozina neobsahuje ten prvok");
 	
 	MNOZINA* pr = prienik(mnoz1, mnoz2);
 	printf("Prienik mnozin 1 a 2 je: ");
