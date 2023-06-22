@@ -11,6 +11,9 @@ typedef struct{
 
 MNOZINA* konstrukt_mnoz(){
     MNOZINA* mnoz = (MNOZINA*)malloc(sizeof(MNOZINA));
+    if (mnoz == NULL)
+	return NULL;
+		
     mnoz->data = NULL;
     mnoz->size = 0;
     return mnoz;
@@ -21,11 +24,13 @@ void destruct_mnoz(MNOZINA* mnoz){
     free(mnoz);
 }
 
-void pridat(MNOZINA* mnoz, int a) {
+int pridat(MNOZINA* mnoz, int a) {
 	int i;
 	
 	mnoz->size = mnoz->size + 1;
 	int* data = (int*)malloc(mnoz->size * sizeof(int));
+	if (data == NULL)
+		return 0;
 	
 	for (i = 0; i < mnoz->size - 1; i++) {
 		data[i] = mnoz->data[i];
@@ -36,7 +41,7 @@ void pridat(MNOZINA* mnoz, int a) {
 	mnoz->data = data;
 }
 
-void odstranit(MNOZINA* mnoz, int a) {
+int odstranit(MNOZINA* mnoz, int a) {
 	int i, j;
 	
 	for (i = 0; i < mnoz->size; i++){
@@ -46,7 +51,9 @@ void odstranit(MNOZINA* mnoz, int a) {
 	
 	mnoz->size = mnoz->size - 1;
 	int* data = (int*)malloc(mnoz->size * sizeof(int));
-	
+	if (data == NULL)
+		return 0;	
+			
 	for (i = 0; i < j; i++) {
 		data[i] = mnoz->data[i];
 	}
@@ -105,6 +112,9 @@ void sort(MNOZINA* mnoz) {
 
 MNOZINA* prienik(MNOZINA* mnoz1, MNOZINA* mnoz2) {
 	MNOZINA* p = konstrukt_mnoz();
+	if (p == NULL)
+		return NULL;
+		
 	int i = 0, j = 0;
 	
 	sort(mnoz1);
@@ -130,6 +140,8 @@ MNOZINA* prienik(MNOZINA* mnoz1, MNOZINA* mnoz2) {
 
 MNOZINA* zjednotenie(MNOZINA* mnoz1, MNOZINA* mnoz2) {
 	MNOZINA* z = konstrukt_mnoz();
+	if (z == NULL)
+		return NULL;
 	int i = 0, j = 0;
 	
 	sort(mnoz1);
@@ -179,7 +191,17 @@ void vypis(MNOZINA* mnoz) {
 
 int main() {
 	MNOZINA* mnoz1 = konstrukt_mnoz();
+	if (mnoz1 == NULL){
+		puts("chyba v allokacie pamati");
+		return 0;
+	};
+	
 	MNOZINA* mnoz2 = konstrukt_mnoz();
+	if (mnoz2 == NULL){
+		destruct_mnoz(mnoz1);
+		puts("chyba v allokacie pamati");
+		return 0;
+	};
 	
 	pridat(mnoz1, 1);
 	pridat(mnoz1, 10);
@@ -201,10 +223,23 @@ int main() {
 	//	puts("Mnozina neobsahuje ten prvok");
 	
 	MNOZINA* pr = prienik(mnoz1, mnoz2);
+	if (pr == NULL){
+		destruct_mnoz(mnoz1);
+		destruct_mnoz(mnoz2);
+		puts("chyba v allokacie pamati");
+		return 0;
+	};
 	printf("Prienik mnozin 1 a 2 je: ");
 	vypis(pr);
 	
 	MNOZINA* zj = zjednotenie(mnoz1, mnoz2);
+		if (zj == NULL){
+		destruct_mnoz(mnoz1);
+		destruct_mnoz(mnoz2);
+		destruct_mnoz(zj);
+		puts("chyba v allokacie pamati");
+		return 0;
+	};
 	printf("Zjednotenie mnozin 1 a 2 je: ");
 	vypis(zj);
 	
