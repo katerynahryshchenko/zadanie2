@@ -12,7 +12,7 @@ typedef struct{
 MNOZINA* konstrukt_mnoz(){
     MNOZINA* mnoz = (MNOZINA*)malloc(sizeof(MNOZINA));
     if (mnoz == NULL)
-	return NULL;
+	    return NULL;
 		
     mnoz->data = NULL;
     mnoz->size = 0;
@@ -32,9 +32,8 @@ int pridat(MNOZINA* mnoz, int a) {
 	if (data == NULL)
 		return 0;
 	
-	for (i = 0; i < mnoz->size - 1; i++) {
+	for (i = 0; i < mnoz->size - 1; i++) 
 		data[i] = mnoz->data[i];
-	}
 	
 	free(mnoz->data);
 	data[mnoz->size - 1] = a;
@@ -44,23 +43,20 @@ int pridat(MNOZINA* mnoz, int a) {
 int odstranit(MNOZINA* mnoz, int a) {
 	int i, j;
 	
-	for (i = 0; i < mnoz->size; i++){
+	for (i = 0; i < mnoz->size; i++)
 		if (mnoz->data[i] == a)
 			j = i;			
-	}
 	
 	mnoz->size = mnoz->size - 1;
 	int* data = (int*)malloc(mnoz->size * sizeof(int));
 	if (data == NULL)
 		return 0;	
 			
-	for (i = 0; i < j; i++) {
+	for (i = 0; i < j; i++) 
 		data[i] = mnoz->data[i];
-	}
 	
-	for (i = j; i < mnoz->size; i++) {
+	for (i = j; i < mnoz->size; i++) 
 		data[i] = mnoz->data[i+1];
-	}
 	
 	free(mnoz->data);
 	mnoz->data = data;
@@ -69,10 +65,10 @@ int odstranit(MNOZINA* mnoz, int a) {
 int test(MNOZINA* mnoz, int a) {
 	int i;
 	
-	for(i = 0; i < mnoz->size; i++){
+	for(i = 0; i < mnoz->size; i++)
 		if (mnoz->data[i] == a)
 			return MATCH;
-	}	
+	
 	return NO_MATCH;		
 }
 
@@ -129,7 +125,8 @@ MNOZINA* prienik(MNOZINA* mnoz1, MNOZINA* mnoz2) {
 			j++;
 			
 		if (mnoz1->data[i] == mnoz2->data[j]) { 
-			pridat(p, mnoz1->data[i]);
+			if(pridat(p, mnoz1->data[i]) == 0)
+				return NULL;
 			i++;
 			j++;			
 		}
@@ -150,31 +147,36 @@ MNOZINA* zjednotenie(MNOZINA* mnoz1, MNOZINA* mnoz2) {
 	while (i < mnoz1->size && j < mnoz2->size) {
 		
 		if (mnoz1->data[i] < mnoz2->data[j]){
-			pridat(z, mnoz1->data[i]);
+			if(pridat(z, mnoz1->data[i]) == 0)
+				return NULL;
 			i++;
 		}
 			
 		if (mnoz1->data[i] > mnoz2->data[j]){
-			pridat(z, mnoz2->data[j]);
+			if(pridat(z, mnoz2->data[j]) == 0)
+				return NULL;
 			j++;
 		}
 			
 		if (mnoz1->data[i] == mnoz2->data[j]) { 
-			pridat(z, mnoz1->data[i]);
+			if(pridat(z, mnoz1->data[i]) == 0)
+				return NULL;
 			i++;
 			j++;			
 		}
 	}
-		
+	
 	while (i < mnoz1->size) {
-        pridat(z, mnoz1->data[i]);
-        i++;
-    }
-
-    while (j < mnoz2->size) {
-        pridat(z, mnoz2->data[j]);
-        j++;
-    }
+		if(pridat(z, mnoz1->data[i]) == 0)
+			return NULL;
+		i++;
+	}
+		
+	while (j < mnoz2->size) {
+       	if(pridat(z, mnoz2->data[j]) == 0)
+			return NULL;
+       	j++;
+   	}
 
 	return z;
 }
@@ -182,9 +184,8 @@ MNOZINA* zjednotenie(MNOZINA* mnoz1, MNOZINA* mnoz2) {
 void vypis(MNOZINA* mnoz) {
 	int i;
 	
-	for(i = 0; i < mnoz->size; i++){
+	for(i = 0; i < mnoz->size; i++)
 		printf("%d ", mnoz->data[i]);
-	}
 	
 	puts("\n");
 }
